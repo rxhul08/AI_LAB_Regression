@@ -7,7 +7,7 @@ df = pd.read_csv(file_path)
 # normalising the dataset
 df_normalized = (df - df.min()) / (df.max() - df.min())
 # k means clustering starts
-def initialize_centroids(data, k):
+def select_random_centers(data, k):
     """randomly select k centroids from data points"""
     return data.sample(n=k).values
 def assign_clusters(data, centroids):
@@ -19,7 +19,7 @@ def update_centroids(data, labels, k):
     return np.array([data[labels == i].mean(axis=0) for i in range(k)])
 def k_means(data, k, max_iters=100, tol=1e-4):
     """perform k-means clustering"""
-    centroids = initialize_centroids(data, k)
+    centroids = select_random_centers(data, k)
     for _ in range(max_iters):
         labels = assign_clusters(data, centroids)
         new_centroids = update_centroids(data, labels, k)
